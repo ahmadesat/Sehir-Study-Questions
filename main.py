@@ -5,10 +5,10 @@ from flask import Flask, request, redirect, url_for, session
 from flask import render_template
 
 app = Flask(__name__)
-app.secret_key = "ASDFGHJKL99"
+app.secret_key = "WHATEVERYOUWANT"
 database = mysql.connector.connect(host="localhost",
 								   user="root",
-								   password="mysql99",
+								   password="passwordHere",
 								   database="studyquestions")
 
 cursor = database.cursor(buffered=True)
