@@ -31,23 +31,21 @@ courses_hours = courses[3::6]
 courses_room = courses[4::6]
 courses_staff = courses[5::6]
 
-print(courses_name)
+#ONLY RUN THE FOLLOWING IF YOUR DATABASE IS EMPTIED
 
-# #ONLY RUN THE FOLLOWING IF YOUR DATABASE IS EMPTIED
-#
-#
-# import mysql.connector
-#
-#
-# database = mysql.connector.connect(host="localhost",
-#                                    user="root",
-#                                    password="mysql99",
-#                                    database="studyquestions")
-#
-# cursor = database.cursor()
-#
-# for i in range(1,len(courses_code)):
-#     print(courses_name[i])
-#     cursor.execute("insert into courses(course_code,course_name,course_prof)"
-#                         "values (%s,%s,%s)", (courses_code[i],courses_name[i],courses_staff[i]))
-# database.commit()
+
+import mysql.connector
+
+
+database = mysql.connector.connect(host="localhost",
+                                   user="root",
+                                   password="passwordHere",
+                                   database="studyquestions")
+
+cursor = database.cursor()
+
+for i in range(1,len(courses_code)):
+    print(courses_name[i])
+    cursor.execute("insert into courses(course_code,course_name,course_prof)"
+                        "values (%s,%s,%s)", (courses_code[i],courses_name[i],courses_staff[i]))
+database.commit()
