@@ -24,7 +24,7 @@ database = mysql.connector.connect(host="localhost",
 5. Run main.py and enjoy the website :)
 
 ## For Testing :
-To test the website as an Instructor, simply register an account with the following credentials:
+To test the website **as an Instructor**, simply register an account with the following credentials:
 
 Name : Testing Instructor
 
@@ -35,5 +35,6 @@ password : *any password*
 Then search for a course named **Testing Purposes**
 You will be the instructor of that course.
 
-As for student, it can be anything you'd like
+
+To test the website **as a Student**, credentials can be anything you'd like
 but make sure you **use the domain *@std.sehir.edu.tr* in the email section**
