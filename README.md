@@ -25,8 +25,11 @@ database = mysql.connector.connect(host="localhost",
 
 ## For Testing :
 To test the website as an Instructor, simply register an account with the following credentials:
+
 Name : Testing Instructor
+
 email : testing@sehir.edu.tr
+
 password : *any password*
 
 Then search for a course named **Testing Purposes**
