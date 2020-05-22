@@ -464,12 +464,16 @@ def login():
 				print("Login Successful !")
 				print(session['email'])
 				return redirect("/")
+
+			else:
+				msg = 'Incorrect Email or Password'
+				return render_template("login.html", msg=msg)
 		
 		elif domain == "std.sehir.edu.tr":
 			cursor.execute("select * from Student WHERE email = %s AND password = %s",
 						   (user_email, user_password,))
 			account = cursor.fetchone()
-			
+
 			if account:
 				session['loggedin'] = True
 				session['id'] = account[0]
@@ -479,6 +483,10 @@ def login():
 				print("Login Successful !")
 				print(session['email'])
 				return redirect("/")
+
+			else:
+				msg = 'Incorrect Email or Password'
+				return render_template("login.html", msg=msg)
 		
 		else:
 			msg = 'Incorrect Email or Password'
