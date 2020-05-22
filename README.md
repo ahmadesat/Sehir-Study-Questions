@@ -7,7 +7,8 @@ Website similar to Kaggle made for my University using Python and MySQL
 For MySQL:
 
 1. Open MySQL and make a schema with the name "studyquestions"
-2. Open the SQL file "allTables" and exectue it.
+2. Open the SQL file "studyquestions_courses" and execute it
+3. Open the SQL file "allTables" and execute it.
 
 For Python:
 
@@ -19,8 +20,21 @@ database = mysql.connector.connect(host="localhost",
                                    database="studyquestions")
  ```
 
-4. **DO THE PREVIOUS STEP IN BOTH "scrapper.py" and "main.py"**
 
-5. Run scrapper.py, and wait for it to fill the Courses Table in the Database
+5. Run main.py and enjoy the website :)
 
-6. Run main.py and enjoy the website :)
+## For Testing :
+To test the website **as an Instructor**, simply register an account with the following credentials:
+
+Name : Testing Instructor
+
+email : testing@sehir.edu.tr
+
+password : *any password*
+
+Then search for a course named **Testing Purposes**
+You will be the instructor of that course.
+
+
+To test the website **as a Student**, credentials can be anything you'd like
+but make sure you **use the domain *@std.sehir.edu.tr* in the email section**
