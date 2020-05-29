@@ -21,7 +21,8 @@ database = mysql.connector.connect(host="localhost",
  ```
 
 
-5. Run main.py and enjoy the website :)
+5. Run main.py
+6. Navigate to http://127.0.0.1:5000 and enjoy the website :)
 
 ## For Testing :
 To test the website **as an Instructor**, simply register an account with the following credentials:
