@@ -17,7 +17,7 @@ cursor = database.cursor(buffered=True)
 
 @app.route('/', methods=["POST", "GET"])
 def searchfor():
-    cursor.execute("select course_code from Courses")
+    cursor.execute("select course_code from courses")
     all_courses = cursor.fetchall()
     listOfCourses = []
     for course in all_courses:
@@ -33,7 +33,7 @@ def searchfor():
 
     else:
         searchquery = request.form["searchbar"]
-        cursor.execute("select course_name from Courses WHERE Courses.course_code = %s", (searchquery,))
+        cursor.execute("select course_name from courses WHERE courses.course_code = %s", (searchquery,))
         course_name = cursor.fetchall()
         return redirect("/{name_of_course}".format(name_of_course=course_name[0][0]))
 
@@ -50,7 +50,7 @@ def course_page(name_of_course):
         if request.method == "GET":
             # Fetch the questions for this course
             cursor.execute(
-                "select question.id, description, difficulty, p_value, postingDate from Question,Courses WHERE Courses.course_name = %s and Question.course_id = Courses.id ",
+                "select question.id, description, difficulty, p_value, postingDate from question,courses WHERE courses.course_name = %s and question.course_id = courses.id ",
                 (name_of_course,))
             questions = cursor.fetchall()
 
@@ -68,7 +68,7 @@ def course_page(name_of_course):
 
             # Check whether it is a Staff Member or not
 
-            cursor.execute('SELECT * FROM Courses WHERE courses.course_name = %s and courses.course_prof = %s',
+            cursor.execute('SELECT * FROM courses WHERE courses.course_name = %s and courses.course_prof = %s',
                            (name_of_course, session['name'],))
             checkIfThisIsProf = cursor.fetchone()
 
@@ -94,7 +94,7 @@ def course_page(name_of_course):
 def postQuestion(name_of_course):
     if 'loggedin' in session:
 
-        cursor.execute('SELECT * FROM Courses WHERE courses.course_name = %s and courses.course_prof = %s',
+        cursor.execute('SELECT * FROM courses WHERE courses.course_name = %s and courses.course_prof = %s',
                        (name_of_course, session['name'],))
         checkIfThisIsProf = cursor.fetchone()
 
@@ -131,7 +131,7 @@ def viewQuestion(name_of_course, question_id):
     if 'loggedin' in session:
 
         cursor.execute(
-            "select description from Question WHERE Question.id=%s",
+            "select description from question WHERE question.id=%s",
             (question_id,))
         question = cursor.fetchall()
         desc = question[0]
@@ -148,7 +148,7 @@ def viewQuestion(name_of_course, question_id):
         else:
             rating = sum(ratings) / len(ratings)
 
-        cursor.execute('SELECT * FROM Courses WHERE courses.course_name = %s and courses.course_prof = %s',
+        cursor.execute('SELECT * FROM courses WHERE courses.course_name = %s and courses.course_prof = %s',
                        (name_of_course, session['name'],))
         checkIfThisIsProf = cursor.fetchone()
 
@@ -158,7 +158,7 @@ def viewQuestion(name_of_course, question_id):
                 return render_template('viewQuestion_staff.html', name=session['name'], desc=desc[0], rating=rating)
 
             else:
-                cursor.execute("DELETE FROM Question WHERE id=%s", (question_id,))
+                cursor.execute("DELETE FROM question WHERE id=%s", (question_id,))
                 database.commit()
                 return redirect(url_for("course_page", name_of_course=name_of_course))
 
@@ -197,7 +197,7 @@ def viewAllAnswers(name_of_course, question_id):
 
         if request.method == "GET":
             cursor.execute(
-                "select  answer.description, student.name, status, answer.postingDate,student.score from Answer,Student WHERE answer.posted_by=student.id and Answer.q_id = %s",
+                "select  answer.description, student.name, status, answer.postingDate,student.score from answer,student WHERE answer.posted_by=student.id and answer.q_id = %s",
                 (question_id,))
             answers = cursor.fetchall()
 
@@ -213,7 +213,7 @@ def viewAllAnswers(name_of_course, question_id):
                 dates.append(answer[3].strftime("%d/%m/%Y"))
                 scores.append(answer[4])
 
-            cursor.execute('SELECT * FROM Courses WHERE courses.course_name = %s and courses.course_prof = %s',
+            cursor.execute('SELECT * FROM courses WHERE courses.course_name = %s and courses.course_prof = %s',
                            (name_of_course, session['name'],))
             checkIfThisIsProf = cursor.fetchone()
 
@@ -235,7 +235,7 @@ def viewAnswer(name_of_course, question_id, poster_name):
     if 'loggedin' in session:
 
         cursor.execute(
-            "select answer.description, student.name, status, student.id from Answer,Question,Student WHERE Question.id=%s and student.name = %s and Answer.posted_by=student.id and Answer.q_id = Question.id",
+            "select answer.description, student.name, status, student.id from answer,question,student WHERE question.id=%s and student.name = %s and answer.posted_by=student.id and answer.q_id = question.id",
             (question_id, poster_name))
         answers = cursor.fetchall()
         desc = []
@@ -250,7 +250,7 @@ def viewAnswer(name_of_course, question_id, poster_name):
 
         if request.method == "GET":
 
-            cursor.execute('SELECT * FROM Courses WHERE courses.course_name = %s and courses.course_prof = %s',
+            cursor.execute('SELECT * FROM courses WHERE courses.course_name = %s and courses.course_prof = %s',
                            (name_of_course, session['name'],))
             checkIfThisIsProf = cursor.fetchone()
 
@@ -276,9 +276,9 @@ def viewAnswer(name_of_course, question_id, poster_name):
                                        correctOrNot=status[0], errorMsg=errorMsg)
             else:
                 gradeToGive = int(request.form["gradeToGive"])
-                cursor.execute("UPDATE answer,student SET status= %s WHERE answer.q_id=%s  and Answer.posted_by=%s",
+                cursor.execute("UPDATE answer,student SET status= %s WHERE answer.q_id=%s  and answer.posted_by=%s",
                                (gradeToGive, question_id, id_is[0]))
-                cursor.execute("SELECT status FROM answer WHERE answer.q_id=%s and  Answer.posted_by=%s",
+                cursor.execute("SELECT status FROM answer WHERE answer.q_id=%s and  answer.posted_by=%s",
                                (question_id, id_is[0],))
 
                 currentStatus = cursor.fetchall()[0][0]
@@ -348,7 +348,7 @@ def profile():
 
         if domain == 'sehir.edu.tr':
             # We need all the account info for the user so we can display it on the profile page
-            cursor.execute('SELECT * FROM Instructor WHERE id = %s', (session['id'],))
+            cursor.execute('SELECT * FROM instructor WHERE id = %s', (session['id'],))
             account = cursor.fetchone()
 
             # Show the profile page with account info
@@ -357,7 +357,7 @@ def profile():
 
         elif domain == 'std.sehir.edu.tr':
             # We need all the account info for the user so we can display it on the profile page
-            cursor.execute('SELECT * FROM Student WHERE id = %s', (session['id'],))
+            cursor.execute('SELECT * FROM student WHERE id = %s', (session['id'],))
             account = cursor.fetchone()
 
             # Show the profile page with account info
@@ -451,7 +451,7 @@ def login():
         domain = user_email.split('@')[1]
 
         if domain == "sehir.edu.tr":
-            cursor.execute("select * from Instructor WHERE email = %s AND password = %s",
+            cursor.execute("select * from instructor WHERE email = %s AND password = %s",
                            (user_email, user_password,))
             account = cursor.fetchone()
             if account:
@@ -469,7 +469,7 @@ def login():
                 return render_template("login.html", msg=msg)
 
         elif domain == "std.sehir.edu.tr":
-            cursor.execute("select * from Student WHERE email = %s AND password = %s",
+            cursor.execute("select * from student WHERE email = %s AND password = %s",
                            (user_email, user_password,))
             account = cursor.fetchone()
 
