@@ -7,8 +7,8 @@ Website similar to Kaggle made for my University using Python and MySQL
 For MySQL:
 
 1. Open MySQL and make a schema with the name "studyquestions"
-2. Open the SQL file "studyquestions_courses" and execute it
-3. Open the SQL file "allTables" and execute it.
+2. Copy all the code inide "sehirstudyquestions.sql"
+3. Paste this code inside a new SQL Query created in "studyquestions" schema, and **execute it**.
 
 For Python:
 
