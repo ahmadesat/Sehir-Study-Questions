@@ -41,17 +41,38 @@
     <script>
         var trueurl = window.location.href
 
-        var descs = {{desc | tojson}}
-        var posted_bys = {{posted_by | tojson}}
-        var statuses = {{correctOrNot | tojson}}
-        var currentDates = {{dates | tojson}}
+        var descs = {
+        {
+            desc | tojson
+        }
+        }
+        var posted_bys = {
+        {
+            posted_by | tojson
+        }
+        }
+        var statuses = {
+        {
+            correctOrNot | tojson
+        }
+        }
+        var currentDates = {
+        {
+            dates | tojson
+        }
+        }
+        var scores = {
+        {
+            score | tojson
+        }
+        }
 
         document.write('<table style="margin-bottom: 1em" border="0" cellspacing="0">');
 
         for (var i = 0; i < descs.length; i++) {
             document.write('<tr height="50">');
             document.write('<td width="400" align="center" style="border- top-style:none;border-right-style:none;border-left-style:none;border-bottom- style:solid;border-width:1px;border-color:black;white-space: pre-wrap; text-align:left ;font-size:15px; font-weight: normal"> ' + descs[i].substring(0, 70) + '...' + '</td>');
-            document.write('<td width="150" align="center" style="border- top-style:none;border-right-style:none;border-left-style:none;border-bottom- style:solid;border-width:1px;border-color:black;"> ' + posted_bys[i] + '</td>');
+            document.write('<td width="150" align="center" style="border- top-style:none;border-right-style:none;border-left-style:none;border-bottom- style:solid;border-width:1px;border-color:black;"> ' + posted_bys[i] + '<br>(' + scores[i] + ')</td>');
             document.write('<td width="200" align="center" style="border- top-style:none;border-right-style:none;border-left-style:none;border-bottom- style:solid;border-width:1px;border-color:black;"> ' + statuses[i] + '</td>');
             document.write('<td width="145" align="center" style="border- top-style:none;border-right-style:none;border-left-style:none;border-bottom- style:solid;border-width:1px;border-color:black;"> ' + currentDates[i] + '</td>');
 
