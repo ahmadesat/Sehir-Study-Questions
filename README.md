@@ -2,6 +2,8 @@
 
 Website similar to Kaggle made for my University using Python and MySQL
 
+For the containerized version (using Docker) : [Sehir Study Questions Containerized](https://github.com/dean-pearce/Sehir-Study-Questions-Containerized)
+
 ## How To Use :
 
 For MySQL:
